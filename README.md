@@ -1,28 +1,53 @@
 # 🔗 URL Shortener
 
-A full-stack URL shortener built with **Node.js + Express** (backend) and **React + Vite** (frontend). Uses SQLite for persistent storage — no external database required.
+A full-stack URL Shortener application inspired by Bitly, built using **Node.js + Express** for the backend and **React + Vite** for the frontend.
+
+The project focuses on scalable backend concepts such as:
+- URL encoding
+- Fast redirection
+- Analytics tracking
+- Persistent storage
+- REST API design
+
+Uses SQLite for lightweight persistent storage with zero external database setup.
+
+---
 
 ## Features
 
-- ✂️ Shorten any URL with a random 6-character code
-- ✏️ Custom aliases (e.g. `localhost:5000/my-brand`)
-- 📊 Click tracking with per-day analytics chart
-- 🗑️ Delete links
-- 🔍 Search and filter your links
+- ✂️ Generate short URLs with unique 6-character codes
+- ✏️ Custom aliases for branded short links
+- 📊 Click tracking with per-day analytics
+- 🔍 Search and filter saved URLs
 - 📋 One-click copy to clipboard
-- 💾 SQLite database — zero config, single file
+- 🗑️ Delete shortened URLs
+- ⚡ Fast redirection workflow
+- 💾 SQLite-based persistent storage
+
+---
+
+## System Architecture
+
+```text
+Client (React + Vite)
+        ↓
+Node.js + Express API
+        ↓
+SQLite Database
+```
 
 ---
 
 ## Project Structure
 
-```
+```text
 url-shortener/
-├── server/          # Express API + SQLite
+├── server/                 # Express API + SQLite
 │   ├── index.js
 │   ├── package.json
 │   └── .env.example
-├── client/          # React + Vite frontend
+│
+├── client/                 # React + Vite frontend
 │   ├── src/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
@@ -30,6 +55,7 @@ url-shortener/
 │   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
+│
 ├── .gitignore
 └── README.md
 ```
@@ -38,94 +64,150 @@ url-shortener/
 
 ## Getting Started
 
-### 1. Clone the repo
+### Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/url-shortener.git
+git clone https://github.com/KaRtHiK-030/url-shortener.git
 cd url-shortener
 ```
 
-### 2. Set up the backend
+---
+
+## Backend Setup
 
 ```bash
 cd server
 npm install
-cp .env.example .env    # edit if needed
-npm run dev             # starts on http://localhost:5000
 ```
 
-### 3. Set up the frontend
+Create `.env` file:
+
+```env
+PORT=5000
+BASE_URL=http://localhost:5000
+CLIENT_URL=http://localhost:5173
+```
+
+Run backend server:
+
+```bash
+npm run dev
+```
+
+Backend runs on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+## Frontend Setup
 
 ```bash
 cd ../client
 npm install
-npm run dev             # starts on http://localhost:5173
+npm run dev
 ```
 
-Open **http://localhost:5173** in your browser.
+Frontend runs on:
 
----
-
-## Environment Variables (`server/.env`)
-
-| Variable     | Default                    | Description                          |
-|-------------|----------------------------|--------------------------------------|
-| `PORT`      | `5000`                     | Port the API runs on                 |
-| `BASE_URL`  | `http://localhost:5000`    | Public base URL used for short links |
-| `CLIENT_URL`| `http://localhost:5173`    | Frontend URL for CORS                |
+```text
+http://localhost:5173
+```
 
 ---
 
 ## API Endpoints
 
-| Method   | Endpoint                          | Description                   |
-|----------|-----------------------------------|-------------------------------|
-| `POST`   | `/api/shorten`                    | Create a short link           |
-| `GET`    | `/api/links`                      | List all links                |
-| `DELETE` | `/api/links/:code`                | Delete a link                 |
-| `GET`    | `/api/links/:code/analytics`      | Click history for a link      |
-| `GET`    | `/:code`                          | Redirect to the original URL  |
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/shorten` | Create short URL |
+| `GET` | `/api/links` | Fetch all links |
+| `DELETE` | `/api/links/:code` | Delete a link |
+| `GET` | `/api/links/:code/analytics` | Fetch analytics |
+| `GET` | `/:code` | Redirect to original URL |
 
-### POST `/api/shorten`
+---
+
+## Example Request
+
+### Create Short URL
+
+```http
+POST /api/shorten
+```
+
+Request Body:
 
 ```json
 {
-  "url": "https://your-long-url.com",
-  "customCode": "optional-alias"
+  "url": "https://example.com/very/long/url",
+  "customCode": "my-link"
 }
 ```
 
 ---
 
-## Deployment
-
-### Deploy backend to Railway / Render / Fly.io
-
-1. Push repo to GitHub.
-2. Create a new web service pointing to the `server/` folder.
-3. Set `BASE_URL` to your live domain (e.g. `https://myapp.railway.app`).
-4. Set `CLIENT_URL` to your frontend domain.
-
-### Deploy frontend to Vercel / Netlify
-
-1. Set the root directory to `client/`.
-2. Build command: `npm run build`
-3. Output directory: `dist`
-4. Set `VITE_API_URL` if your API is on a different domain (update `API` constant in `App.jsx`).
-
----
-
 ## Tech Stack
 
-| Layer    | Technology                  |
-|----------|-----------------------------|
-| Frontend | React 18, Vite              |
-| Backend  | Node.js, Express            |
-| Database | SQLite via better-sqlite3   |
-| IDs      | nanoid                      |
+### Frontend
+- React 18
+- Vite
+- CSS
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- SQLite (`better-sqlite3`)
+
+### Utilities
+- nanoid
 
 ---
 
-## License
+## Deployment
 
-MIT
+### Backend Deployment
+Can be deployed on:
+- Railway
+- Render
+- Fly.io
+
+### Frontend Deployment
+Can be deployed on:
+- Vercel
+- Netlify
+
+---
+
+## Future Improvements
+
+- Redis caching
+- User authentication
+- QR code generation
+- URL expiration support
+- Rate limiting
+- Custom analytics dashboard
+
+---
+
+## Key Learnings
+
+- REST API development
+- Full-stack application architecture
+- SQLite integration
+- URL shortening logic
+- Frontend-backend communication
+- Analytics tracking implementation
+
+---
+
+## Author
+
+Karthik Naik
+
+- GitHub: https://github.com/KaRtHiK-030
+- LinkedIn: https://www.linkedin.com/in/karthik-naik-/
